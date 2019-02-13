@@ -1,3 +1,4 @@
+package AlgoritmoGenetico;
 
 public class Main {
 
