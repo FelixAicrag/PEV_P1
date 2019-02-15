@@ -1,8 +1,9 @@
 package AlgoritmoGenetico;
 import Cromosoma.Cromosoma;
 import Cromosoma.CromosomaF1;
+import Utils.Rango;
 
-public class AlgoritmoGeneticoF1 {
+public class AlgoritmoGenetico {
 
 		
 		static int tam_poblacion = 100;
@@ -11,15 +12,16 @@ public class AlgoritmoGeneticoF1 {
 		static int porcentaje_mutacion = 5;
 		static double precision = 0.001;
 		static boolean elitismo = true;
+		
 		CromosomaF1 elMejor;
 		double mediaGeneracion;
 		
-		static double[] rango_x1 = {-3.0, 12.1};
-		static double[] rango_x2 = {4.1, 5.8};
+		static Rango rango_x1 = new Rango(-3.0, 12.1);
+		static Rango rango_x2 = new Rango(4.1, 5.8);
 		
 		Cromosoma[] poblacion = new Cromosoma[tam_poblacion];
 		
-		public AlgoritmoGeneticoF1() {
+		public AlgoritmoGenetico(int problema) {
 			inicializaPoblacion();
 			evaluaPoblacion();
 			
@@ -32,10 +34,15 @@ public class AlgoritmoGeneticoF1 {
 		}
 		
 		public void evaluaPoblacion() {
-			double fitness, fitness_max, fitness_acu;
+			double fitness, fitness_mejor = Double.MIN_VALUE, fitness_acu = 0; 
 			for(int i = 0; i < tam_poblacion; i++) {
-				fitness = fitness(this.poblacion[i].fenotipo());
+				fitness = this.poblacion[i].fitness();
+				fitness_acu += fitness;
+				
+				if(fitness_mejor < fitness) fitness_mejor = fitness;
 			}
+			
+			double media_pob = fitness_acu / tam_poblacion;
 			
 			
 		}
@@ -43,11 +50,4 @@ public class AlgoritmoGeneticoF1 {
 		public void representarIndividuo() {
 			
 		}
-		
-		public double fitness(double[] fen) {
-			return 21.5 + fen[0]*(Math.sin(4*Math.PI*fen[0])) + 
-					fen[1]*(Math.sin(20*Math.PI*fen[1]));
-		}
-		
-
 }
