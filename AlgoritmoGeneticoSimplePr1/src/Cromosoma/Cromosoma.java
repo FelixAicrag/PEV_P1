@@ -9,9 +9,11 @@ public abstract class Cromosoma {
 	double puntuacion_acu;
 	int longitud;
 	
+	public abstract double fitness();
 	public abstract double[] fenotipo();
 	public abstract void puntuacion();
 	public abstract void puntuacion_acu();
 	public abstract void longitud();
+	
 	
 }
