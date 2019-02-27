@@ -17,61 +17,47 @@ public class AlgoritmoGenetico {
 	double mejorGeneracion;
 	int pos_mejorGeneracion;
 	
-	public AlgoritmoGenetico(int tPob, int nGeneracs, double pCruce, double pMutacion, 
-							 double prec, int nGenes, boolean elit, int func) {
-		this.elitismo = elit;
+	public AlgoritmoGenetico(int func, int nGeneracs,  int nGenes, int tPob, 
+							 double pCruce, double pMutacion, double prec,boolean elit) {
+		this.funcion = func;
+		
 		this.numGeneraciones = nGeneracs;
+		this.numGenes = nGenes;
 		this.tamPoblacion = tPob;
+		
 		this.probabilidadCruce = pCruce;
 		this.probabilidadMutacion = pMutacion;
-		this.funcion = func;
 		this.precision = prec;
-		this.numGenes = nGenes;
+		
+		this.elitismo = elit;
+	}
+	
+	public void inicializaPoblacion() {
 		
 		switch (funcion) {
 		case 1:
-			inicializaPoblacionF1(); 
+			for(int i = 0; i < tamPoblacion; i++) {
+				this.poblacion[i] = new CromosomaF1(precision);
+			}
 			break;
-			
 		case 2:
-			inicializaPoblacionF2(); break;
+			for(int i = 0; i < tamPoblacion; i++) {
+				this.poblacion[i] = new CromosomaF2(precision);
+			}
+			break;
 		case 3:
-			inicializaPoblacionF3(); break;
+			for(int i = 0; i < tamPoblacion; i++) {
+				this.poblacion[i] = new CromosomaF3(precision);
+			}
+			break;
 		case 4:
-			inicializaPoblacionF4(); break;
+			for(int i = 0; i < tamPoblacion; i++) {
+				this.poblacion[i] = new CromosomaF4(precision, 2);
+			}
+			break;
 		}
 		
-		evaluaPoblacion();
-		
-		
-	}
-	
-	public void inicializaPoblacionF1() {
-		
-		for(int i = 0; i < tamPoblacion; i++) {
-			this.poblacion[i] = new CromosomaF1(precision);
-		}
-	}
-	
-	public void inicializaPoblacionF2() {
-		
-		for(int i = 0; i < tamPoblacion; i++) {
-			this.poblacion[i] = new CromosomaF2(precision);
-		}
-	}
-	
-	public void inicializaPoblacionF3() {
-		
-		for(int i = 0; i < tamPoblacion; i++) {
-			this.poblacion[i] = new CromosomaF3(precision);
-		}
-	}
-	
-	public void inicializaPoblacionF4() {
-		
-		for(int i = 0; i < tamPoblacion; i++) {
-			this.poblacion[i] = new CromosomaF4(precision, 2);
-		}
+
 	}
 	
 	public void evaluaPoblacion() {
@@ -103,6 +89,13 @@ public class AlgoritmoGenetico {
 		
 		
 	}
+	
+	public void seleccionaPoblacion() {};
+	public void reproducePoblacion() {};
+	public void mutaPoblacion() {};
+	boolean terminado(int generacion_actual) {
+		return generacion_actual >= this.numGeneraciones;
+	};
 	
 	public void representarIndividuo() {
 		
