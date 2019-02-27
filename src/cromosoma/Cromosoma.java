@@ -150,20 +150,6 @@ public abstract class Cromosoma implements Comparable<Cromosoma>{
 		this.longitudCrom = longCrom;
 	}
 
-    public void mutar(double probabilidad) { 
-        double valor;
-
-        for (int i = 0; i < this.cromosoma.length; i++) {
-            valor = Math.random();
-            if (valor <= probabilidad) {
-                if (cromosoma[i]) 
-                    cromosoma[i] = false;
-                else 
-                    cromosoma[i] = true;
-            }
-        }
-    }
-
     public int compareTo(Cromosoma cromosoma) {
     	return (int) (this.getFitness() - cromosoma.getFitness());
     }
