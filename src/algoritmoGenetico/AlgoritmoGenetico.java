@@ -67,7 +67,8 @@ public class AlgoritmoGenetico {
 			fitness = fitness(this.poblacion[i].getFenotipo());
 			
 			if((this.funcion == 1 && fitness > fitness_best) || 
-			   (this.funcion != 1 && fitness < fitness_best))  { fitness_best = fitness; pos_fitness_best = i; }
+			   (this.funcion != 1 && fitness < fitness_best))  
+			{ fitness_best = fitness; pos_fitness_best = i; }
 			sum_fitness += fitness;
 		}
 		

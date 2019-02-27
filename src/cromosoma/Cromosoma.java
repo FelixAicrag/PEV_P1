@@ -12,6 +12,7 @@ public abstract class Cromosoma implements Comparable<Cromosoma>{
     double punt_Acumulada;
     int numGenes;
     double precision;
+    int longitudCrom;
 	
 
     public Cromosoma() {
@@ -96,6 +97,10 @@ public abstract class Cromosoma implements Comparable<Cromosoma>{
     public void setTolerancia(double precision) {
     	this.precision = precision;
     }
+    
+    public int getLongitudCrom() {
+    	return this.longitudCrom;
+    }
 
     public void generarCromosomaRandom() {
         Random rand = new Random();
@@ -123,6 +128,8 @@ public abstract class Cromosoma implements Comparable<Cromosoma>{
         return total;
     }
     
+    
+    
     //creo que esta mal   ?????????
 	public double bin2float(boolean[] genotipo) {
 		String geno = "";
@@ -133,6 +140,14 @@ public abstract class Cromosoma implements Comparable<Cromosoma>{
 		float myFloat = Float.intBitsToFloat(intBits);
 		return myFloat;
 		//Integer.toBinaryString(i)
+	}
+	
+	public void calcularLongCrom() {
+		int longCrom = 0;
+		for(int i = 0; i < this.numGenes; i++) {
+			longCrom += this.longitudes[i];
+		}
+		this.longitudCrom = longCrom;
 	}
 
     public void mutar(double probabilidad) { 
@@ -155,6 +170,9 @@ public abstract class Cromosoma implements Comparable<Cromosoma>{
 
     public abstract void calcularLongitudes();
     public abstract void calcularFenotipo();
+    
+    
+	
 
 }
 

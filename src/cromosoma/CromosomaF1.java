@@ -42,4 +42,8 @@ public class CromosomaF1 extends Cromosoma {
 		this.fenotipo = fenotipo;
 	}
 
+
+
+
+
 }
