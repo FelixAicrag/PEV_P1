@@ -9,6 +9,8 @@ import cromosoma.CromosomaF4;
 public class AlgoritmoGenetico {
 	
 	Cromosoma[] poblacion;
+	Cromosoma elMejor;
+	
 	int tamPoblacion, numGeneraciones, funcion, numGenes;
 	double probabilidadCruce, probabilidadMutacion, precision;
     boolean elitismo;
@@ -38,23 +40,19 @@ public class AlgoritmoGenetico {
 		case 1:
 			for(int i = 0; i < tamPoblacion; i++) {
 				this.poblacion[i] = new CromosomaF1(precision);
-			}
-			break;
+			} break;
 		case 2:
 			for(int i = 0; i < tamPoblacion; i++) {
 				this.poblacion[i] = new CromosomaF2(precision);
-			}
-			break;
+			} break;
 		case 3:
 			for(int i = 0; i < tamPoblacion; i++) {
 				this.poblacion[i] = new CromosomaF3(precision);
-			}
-			break;
+			} break;
 		case 4:
 			for(int i = 0; i < tamPoblacion; i++) {
 				this.poblacion[i] = new CromosomaF4(precision, 2);
-			}
-			break;
+			} break;
 		}
 		
 
@@ -79,7 +77,6 @@ public class AlgoritmoGenetico {
 		
 		double puntuacion = 0, puntuacion_acu = 0;
 		
-		
 		for(int i = 0; i < this.tamPoblacion; i++) {
 			puntuacion = fitness(this.poblacion[i].getFenotipo()) / sum_fitness;
 			puntuacion_acu += puntuacion;
@@ -87,12 +84,30 @@ public class AlgoritmoGenetico {
 			this.poblacion[i].setPuntAcumulada(puntuacion_acu);
 		}
 		
+		if(elMejor.getFitness() < this.poblacion[pos_fitness_best].getFitness()) {
+			elMejor = this.poblacion[pos_fitness_best];
+		}
 		
 	}
 	
-	public void seleccionaPoblacion() {};
-	public void reproducePoblacion() {};
-	public void mutaPoblacion() {};
+	public void seleccionaPoblacion() {
+		
+	};
+	
+	public void reproducePoblacion() {
+		
+	};
+	
+	public void mutaPoblacion() {
+		
+	};
+	
+	/**
+	 * Devuelve true si se cumple la condicion de
+	 * terminacion del bucle; false en c/c.
+	 * @param generacion_actual
+	 * @return
+	 */
 	boolean terminado(int generacion_actual) {
 		return generacion_actual >= this.numGeneraciones;
 	};

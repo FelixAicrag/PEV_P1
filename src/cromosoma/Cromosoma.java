@@ -30,6 +30,9 @@ public abstract class Cromosoma implements Comparable<Cromosoma>{
     	this.punt_Acumulada = 0.0;
     }
     
+    
+    
+    
     public boolean[] getCromosoma() {
         return this.cromosoma;
     }

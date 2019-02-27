@@ -20,6 +20,8 @@ public class CromosomaF1 extends Cromosoma {
 		calcularFenotipo();
 		
 	}
+	
+	
 
 	@Override
 	public void calcularLongitudes() {
