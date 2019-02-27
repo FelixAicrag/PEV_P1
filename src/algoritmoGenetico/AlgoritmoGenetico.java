@@ -5,13 +5,21 @@ import cromosoma.CromosomaF1;
 import cromosoma.CromosomaF2;
 import cromosoma.CromosomaF3;
 import cromosoma.CromosomaF4;
+import utils.TipoCruce;
+import utils.TipoFuncion;
+import utils.TipoSeleccion;
 
 public class AlgoritmoGenetico {
 	
-	Cromosoma[] poblacion;
-	Cromosoma elMejor;
+	Cromosoma[] poblacion; //Poblacion total
+	Cromosoma[] seleccion; //Progenitores seleccionados
+	Cromosoma elMejor; //Mejor absoluto de la generacion
 	
-	int tamPoblacion, numGeneraciones, funcion, numGenes;
+	TipoFuncion funcion;
+	TipoSeleccion tipo_seleccion;
+	TipoCruce tipo_cruce;
+	
+	int tamPoblacion, numGeneraciones, numGenes;
 	double probabilidadCruce, probabilidadMutacion, precision;
     boolean elitismo;
    
@@ -19,9 +27,14 @@ public class AlgoritmoGenetico {
 	double mejorGeneracion;
 	int pos_mejorGeneracion;
 	
-	public AlgoritmoGenetico(int func, int nGeneracs,  int nGenes, int tPob, 
-							 double pCruce, double pMutacion, double prec,boolean elit) {
-		this.funcion = func;
+	public AlgoritmoGenetico(TipoFuncion tFun, TipoSeleccion tSel, TipoCruce tCrux,
+							 int tPob, int nGeneracs,  int nGenes, 
+							 double pCruce, double pMutacion, double prec,
+							 boolean elit) {
+
+		this.funcion = tFun;
+		this.tipo_seleccion = tSel;
+		this.tipo_cruce = tCrux;
 		
 		this.numGeneraciones = nGeneracs;
 		this.numGenes = nGenes;
@@ -37,19 +50,19 @@ public class AlgoritmoGenetico {
 	public void inicializaPoblacion() {
 		
 		switch (funcion) {
-		case 1:
+		case F1:
 			for(int i = 0; i < tamPoblacion; i++) {
 				this.poblacion[i] = new CromosomaF1(precision);
 			} break;
-		case 2:
+		case F2:
 			for(int i = 0; i < tamPoblacion; i++) {
 				this.poblacion[i] = new CromosomaF2(precision);
 			} break;
-		case 3:
+		case F3:
 			for(int i = 0; i < tamPoblacion; i++) {
 				this.poblacion[i] = new CromosomaF3(precision);
 			} break;
-		case 4:
+		case F4:
 			for(int i = 0; i < tamPoblacion; i++) {
 				this.poblacion[i] = new CromosomaF4(precision, 2);
 			} break;
@@ -66,8 +79,8 @@ public class AlgoritmoGenetico {
 		for(int i = 0; i < tamPoblacion; i++) {
 			fitness = fitness(this.poblacion[i].getFenotipo());
 			
-			if((this.funcion == 1 && fitness > fitness_best) || 
-			   (this.funcion != 1 && fitness < fitness_best))  
+			if((this.funcion == TipoFuncion.F1 && fitness > fitness_best) || 
+			   (this.funcion != TipoFuncion.F1 && fitness < fitness_best))  
 			{ fitness_best = fitness; pos_fitness_best = i; }
 			sum_fitness += fitness;
 		}
@@ -92,16 +105,44 @@ public class AlgoritmoGenetico {
 	}
 	
 	public void seleccionaPoblacion() {
+		// TODO Tipos de seleccion
 		
+		switch(tipo_seleccion) {
+		case ESTOCASTICO: break;
+		
+		case RESTOS: break;
+		
+		case RULETA: break;
+		
+		case TORNEO: break;
+		
+		default:
+		
+		
+		}
 	};
 	
+	/**
+	 * 
+	 */
 	public void reproducePoblacion() {
+		// TODO Tipos de cruce
+		switch(tipo_cruce) {
+		case BIPUNTO: break;
+		
+		case MONOPUNTO: break;
+		
+		case UNIFORME: break;
+		
+		default:
+		
+		}
+		
+		// TODO Mutacion
 		
 	};
 	
-	public void mutaPoblacion() {
-		
-	};
+	
 	
 	/**
 	 * Devuelve true si se cumple la condicion de
