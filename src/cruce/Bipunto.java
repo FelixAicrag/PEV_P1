@@ -1,79 +1,73 @@
 package cruce;
 
-import java.util.ArrayList;
-
 import cromosoma.Cromosoma;
 
 public class Bipunto {
-	boolean[] cromosoma1, cromosoma2;
 	double probCruce;
 	int tamPoblacion;
-	int puntoCruce1, puntoCruce2;
-	ArrayList<Cromosoma> seleccionados;
-	ArrayList<Integer> posSeleccionados;
-	int num_sele_cruce;
 	Cromosoma[] poblacion;
 	
 	public Bipunto(double probCruce, int tamPoblacion, Cromosoma[] pob) {
 		this.probCruce = probCruce;
 		this.tamPoblacion = tamPoblacion;
-		this.num_sele_cruce = 0;
-		this.seleccionados = new ArrayList<Cromosoma>();
-		this.posSeleccionados = new ArrayList<Integer>();
 		this.poblacion = pob;
 	}
 	
 	public void cruzar() {
-		
+		boolean[] progenitores = new boolean[this.tamPoblacion];
+		Cromosoma soltero = null;
 		//seleccionamos las cromosomas a cruzar
 		for(int i = 0; i < this.tamPoblacion; i++) {
 			double aleatorio = Math.random();
-			if(aleatorio < this.probCruce) {
-				this.seleccionados.add(this.poblacion[i]);
-				this.posSeleccionados.add(i);
-				num_sele_cruce++;
-			}
+			if(aleatorio < this.probCruce) { progenitores[i] = true;}
+			else progenitores[i] = false;
 		}
 		
-		if(num_sele_cruce % 2 == 1)
-			num_sele_cruce--;
 		
-		//obtenemos el punto de cruce
-		this.puntoCruce1 = (int) (Math.random() * this.poblacion[0].getLongitudCrom()) + 1;
-		this.puntoCruce2 = (int) (Math.random() * this.poblacion[0].getLongitudCrom()) + 1;
+		//de los seleccionados, va haciendo parejas y las cruza.
+		for(int i = 0; i < this.tamPoblacion; i++) {
+			if(progenitores[i]) {
+				if(soltero != null) {
+					cruzarGenesBipunto(soltero, this.poblacion[i]);
+					soltero = null;
+				}
+				else soltero =  this.poblacion[i];
+			}
+		}		
+	}
 		
-		//hacemos el cruce
-		for(int i = 0; i < this.num_sele_cruce - 1; i += 2) {
-			this.cromosoma1 = this.seleccionados.get(i).getCromosoma();
-			this.cromosoma2 = this.seleccionados.get(i + 1).getCromosoma();
+		
+		/**
+		 * Cruza dos genes por 2 puntos
+		 */
+		private void cruzarGenesBipunto(Cromosoma padre, Cromosoma madre) {
+			int longCromosoma = this.poblacion[0].getLongitudCrom();
+			//obtenemos los puntos de cruce
+			int puntoCruce1 = (int) (Math.random() * longCromosoma) + 1;
+			int puntoCruce2 = (int) (Math.random() * longCromosoma) + 1;
 			
-			boolean[] c1_nueva = new boolean[this.cromosoma1.length];
-			boolean[] c2_nueva = new boolean[this.cromosoma2.length];
+			boolean[] infoPadre = padre.getCromosoma();
+			boolean[] infoMadre = madre.getCromosoma();
+			boolean aux;
 			
 			//intercambiamos valores si el valor de puntoCruce1 es mayor
-			if(this.puntoCruce1 > this.puntoCruce2) {
-				int aux = this.puntoCruce1;
-				this.puntoCruce1 = this.puntoCruce2;
-				this.puntoCruce2 = aux;
+			if(puntoCruce1 > puntoCruce2) {
+				int aux1 = puntoCruce1;
+				puntoCruce1 = puntoCruce2;
+				puntoCruce2 = aux1;
 			}
 			
-			for(int j = 0; j < this.cromosoma1.length; j++) {
-				c1_nueva[j] = this.cromosoma1[j];
-				c2_nueva[j] = this.cromosoma2[j];
+			for(int i = puntoCruce1; i < puntoCruce2; i++) {
+				aux = infoPadre[i];
+				infoPadre[i] = infoMadre[i];
+				infoMadre[i] = aux;
+				
 			}
-			
-			for(int l = this.puntoCruce1; l < this.puntoCruce2; l++) {
-				c1_nueva[l] = this.cromosoma2[l];
-				c2_nueva[l] = this.cromosoma1[l];
-			}
-			
-			//guardamos las nuevas cromosomas en las posiciones que estaban 
-			//las cromosomas que hemos seleccionado para cruzar
-			this.poblacion[this.posSeleccionados.get(i)].setCromosoma(c1_nueva);
-			this.poblacion[this.posSeleccionados.get(i + 1)].setCromosoma(c2_nueva);
+			padre.setCromosoma(infoPadre);
+			madre.setCromosoma(infoMadre);
 		}
 	}
 	
 	
 	
-}
+

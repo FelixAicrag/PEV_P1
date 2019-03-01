@@ -2,9 +2,11 @@ package cromosoma;
 
 import java.util.Random;
 
-public abstract class Cromosoma implements Comparable<Cromosoma>{
+import gen.Gen;
+
+public abstract class Cromosoma<T> implements Comparable<Cromosoma<T>>{
 	
-	boolean[] cromosoma; 
+	Gen<T>[] cromosoma; 
     int[] longitudes; //array de longitudes de cada gen del cromosoma
     double[] fenotipo;
     double fitness;
@@ -12,7 +14,6 @@ public abstract class Cromosoma implements Comparable<Cromosoma>{
     double punt_Acumulada;
     int numGenes;
     double precision;
-    int longitudCrom;
 	
 
     public Cromosoma() {
@@ -22,9 +23,10 @@ public abstract class Cromosoma implements Comparable<Cromosoma>{
     	this.punt_Acumulada = 0.0;
     }
     
-    public Cromosoma(boolean[] cromosoma, double[] fenotipo,int[] longitudes) {
+    public Cromosoma(Gen<T>[] cromosoma, double[] fenotipo, int[] longitudes, int numgenes) {
     	this.cromosoma = cromosoma;
     	this.fenotipo = fenotipo;
+    	this.numGenes = numgenes;
     	this.longitudes = longitudes;
     	this.fitness = 0.0;
     	this.puntuacion = 0.0;
@@ -34,12 +36,12 @@ public abstract class Cromosoma implements Comparable<Cromosoma>{
     
     
     
-    public boolean[] getCromosoma() {
-        return this.cromosoma;
-    }
+    public abstract Gen<T>[] getCromosoma();
      
-    public void setCromosoma(boolean[] cromosoma) {
-        this.cromosoma = cromosoma;
+    public abstract void setCromosoma(T cromosoma); {
+    	for(int i = 0; i < this.cromosoma.length; i++) {
+    		this.cromosoma[i] = cromosoma[i];
+    	}
     }
 
     public double[] getFenotipo() {
@@ -99,18 +101,7 @@ public abstract class Cromosoma implements Comparable<Cromosoma>{
     }
     
     public int getLongitudCrom() {
-    	return this.longitudCrom;
-    }
-
-    public void generarCromosomaRandom() {
-        Random rand = new Random();
-        int cont = 0;
-        for (int i = 0; i < this.numGenes; i++) {
-            for (int j = 0; j < this.longitudes[i]; j++) {
-                cromosoma[cont] = rand.nextBoolean();
-                cont++;
-            }
-        }
+    	return this.cromosoma.length;
     }
 
     public double bin2dec(boolean[] genotipo) {
@@ -141,22 +132,15 @@ public abstract class Cromosoma implements Comparable<Cromosoma>{
 		return myFloat;
 		//Integer.toBinaryString(i)
 	}
-	
-	public void calcularLongCrom() {
-		int longCrom = 0;
-		for(int i = 0; i < this.numGenes; i++) {
-			longCrom += this.longitudes[i];
-		}
-		this.longitudCrom = longCrom;
-	}
 
-    public int compareTo(Cromosoma cromosoma) {
+    public int compareTo(Cromosoma<T> cromosoma) {
     	return (int) (this.getFitness() - cromosoma.getFitness());
     }
 
     public abstract void calcularLongitudes();
     public abstract void calcularFenotipo();
-    
+
+	public abstract T generarGenRandom(int longitud);    
     
 	
 

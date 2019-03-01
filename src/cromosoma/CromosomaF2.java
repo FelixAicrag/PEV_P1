@@ -1,6 +1,10 @@
 package cromosoma;
 
-public class CromosomaF2 extends Cromosoma {
+import java.util.Random;
+
+import gen.Gen;
+
+public class CromosomaF2 extends Cromosoma<boolean[]> {
 
 	double min;
     double max;
@@ -10,22 +14,42 @@ public class CromosomaF2 extends Cromosoma {
         this.max = 512.0;
         super.numGenes = 2;
         this.precision = precision;
-        calcularLongitudes();
-        this.cromosoma = new boolean[this.longitudes[0]*2];
-		generarCromosomaRandom();
+		calcularLongitudes();
+		for(int i = 0; i < this.numGenes; i++) {
+			this.cromosoma[i] = new Gen<boolean[]>(generarGenRandom(longitudes[i]));
+		}
 		calcularFenotipo();
     }
 	
 	
 	@Override
 	public void calcularLongitudes() {
-		this.longitudes[0] = (int) (Math.log(1 + ((max - min) / precision)) / Math.log(2));
-		this.longitudes[1] = (int) (Math.log(1 + ((max - min) / precision)) / Math.log(2));
+		for(int i = 0; i < numGenes; i++) {
+			this.longitudes[i] = (int) (Math.log(1 + ((max - min) / precision)) / Math.log(2));
+		}
 	}
 
 	@Override
 	public void calcularFenotipo() {
-				
+		double[] fenotipo = new double[2];
+		boolean[] alelox1 = this.cromosoma[0].getAlelo();
+		boolean[] alelox2 = this.cromosoma[1].getAlelo();
+
+		fenotipo[0] = min + bin2dec(alelox1) * (max - min) / (Math.pow(2, longitudes[0]) - 1);
+		fenotipo[1] = min + bin2dec(alelox2) * (max - min) / (Math.pow(2, longitudes[1]) - 1);
+		this.fenotipo = fenotipo;
+	}
+
+
+	@Override
+	public boolean[] generarGenRandom(int longitud) {
+	        Random rand = new Random();
+	        boolean[] alelo = new boolean[longitud];
+	        for(int i = 0; i < longitud; i++) {
+	        	alelo[i] = rand.nextBoolean();
+	        }
+	        
+	        return alelo;
 	}
 
 }

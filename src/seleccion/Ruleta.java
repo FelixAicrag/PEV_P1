@@ -1,6 +1,5 @@
 package seleccion;
 
-import java.util.ArrayList;
 
 import cromosoma.Cromosoma;
 
@@ -11,16 +10,16 @@ public class Ruleta {
 	int posSuperviviente;
 	int[] supervivientes;
 	
-	public Ruleta (Cromosoma[] pob, Cromosoma[] nuevaPob, int tamPob) {
+	public Ruleta (Cromosoma[] pob, int tamPob) {
 		this.pob = pob;
-		this.nuevaPob = nuevaPob;
+		this.nuevaPob = new Cromosoma[tamPob];
 		this.tamPob = tamPob;
 		this.prob = 0;
 		this.supervivientes = new int[this.tamPob];
 	}
 	
 
-	public void seleccionRuleta(Cromosoma[] pob, Cromosoma[] nuevaPob, int tamPob) {
+	public void seleccionRuleta() {
 		
 		for(int i = 0; i < this.tamPob; i++) {
 			this.prob = Math.random();
@@ -34,11 +33,9 @@ public class Ruleta {
 		}
 		
 		for(int j = 0; j < this.tamPob; j++) {
-			copiarPoblacion(this.pob[this.supervivientes[j]], this.nuevaPob);
+			this.nuevaPob[j] = this.pob[this.supervivientes[j]];
 		}
-	}
-	
-	private void copiarPoblacion(Cromosoma cromosoma, Cromosoma[] nuevaPob) {
 		
+		this.pob = this.nuevaPob;
 	}
 }

@@ -6,8 +6,9 @@ public class Mutacion {
 	boolean[] cromosoma;
 	double probMutacion;
 	
-	public Mutacion(double probMutacion) {
+	public Mutacion(double probMutacion, boolean[] cromosoma) {
 		this.probMutacion = probMutacion;
+		this.cromosoma = cromosoma;
 	}
 	
     public void mutar() { 

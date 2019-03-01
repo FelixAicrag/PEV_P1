@@ -1,6 +1,8 @@
 package cromosoma;
 
-public class CromosomaF4 extends Cromosoma{
+import gen.Gen;
+
+public class CromosomaF4 extends Cromosoma<Double> {
 
 	private double min;
 	private double max;
@@ -11,25 +13,45 @@ public class CromosomaF4 extends Cromosoma{
 		this.max = Math.PI;
 		this.precision = precision;
 		calcularLongitudes();
-		int sumaLongs = 0;
-		for (int i = 0; i < numparams; i++) {
-			sumaLongs += this.longitudes[1];
+		
+		for(int i = 0; i < this.numGenes; i++) {
+			this.cromosoma[i] = new Gen<Double>(generarGenRandom(longitudes[i]));
 		}
-		this.cromosoma = new boolean[sumaLongs];
-		generarCromosomaRandom();
 		calcularFenotipo();
 		
 	}
+	
 	@Override
 	public void calcularLongitudes() {
-		// TODO Auto-generated method stub
+		for(int i = 0; i < numGenes; i++) {
+			this.longitudes[i] = (int) (Math.log(1 + ((max - min) / precision)) / Math.log(2));
+		}
 		
 	}
 
 	@Override
 	public void calcularFenotipo() {
-		// TODO Auto-generated method stub
+		double[] fenotipo = new double[numGenes];
+		boolean[][] x = new boolean[numGenes][longitudes[0]];
 		
+		for(int i = 0; i < longitudes[0]; i++) { 
+			for(int j = 0; j < numGenes; j++) { 
+				x[j][i] = this.cromosoma[i + j*longitudes[0]].; 
+				} 
+			}
+		
+		
+		for(int i = 0; i < numGenes; i++) {
+			fenotipo[i] = min + bin2dec(x[i]) * (max - min) / (Math.pow(2, longitudes[0]) - 1);
+		}
+
+		this.fenotipo = fenotipo;	
+	}
+
+	@Override
+	public Double generarGenRandom(int longitud) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

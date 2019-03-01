@@ -1,7 +1,7 @@
 package funcion;
 
 public class Funcion2 {
-	public static double evalua(double x1, double x2) {
-		return -(x2 + 47) * Math.sin(Math.sqrt(Math.abs(x2 + (x1 / 2) + 47))) - x1 * Math.sin(Math.sqrt(Math.abs(x1 - (x2 + 47))));
+	public static double evalua(double[] x) {
+		return -(x[1] + 47) * Math.sin(Math.sqrt(Math.abs(x[1] + (x[0] / 2) + 47))) - x[0] * Math.sin(Math.sqrt(Math.abs(x[0] - (x[1] + 47))));
 	}
 }
